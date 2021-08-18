@@ -1,7 +1,7 @@
 'use strict';
 
 const { users } = require('../models')
-
+const base64 = require('base-64');
 module.exports = async (req, res, next) => {
 
   try {
@@ -13,9 +13,15 @@ module.exports = async (req, res, next) => {
     req.user = validUser;
     req.token = validUser.token;
     console.log("req.token ",req.token )
-    req.id=validUser.id
-    console.log(" req.id ", req.id )
-
+    req.id=validUser.id;
+    req.username =validUser.username;
+    req.password=validUser.password
+    console.log("req.id",req.id);
+    console.log(" req.username ", req.username )
+    console.log(" req.password ", req.password )
+    console.log('req.body',req.body);
+    // const pw = base64.decode(req.password);
+    // console.log('ps after dec',pw);
     next();
 
   } catch (e) {
