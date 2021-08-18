@@ -5,9 +5,9 @@ const app = express();
 app.use(express.json());
 
 const blogRouter = require('./routes/blogs.route')
-
-app.use(blogRouter)
-
+const userRouter = require('./routes/user.route')
+app.use(blogRouter);
+app.use(userRouter);
 app.get('/',(req,res)=>{
     res.send('helloooooooo')
 })
