@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const {blog} = require('../auth/models/index');
 
-
 // router.param('model', (req, res, next) => {
 //     const modelName = req.params.model;
 //     if (blog[modelName]) {
@@ -18,37 +17,37 @@ const {blog} = require('../auth/models/index');
 
 router.get('/blogs', getAllBlogs);
 router.post('/blogs', createblog);
-// router.put('/blogs/:id', updateBlog);
-// router.delete('/blogs/:id', deleteBlog);
+router.put('/blogs/:id', updateBlog);
+router.delete('/blogs/:id', deleteBlog);
 
 
  async function getAllBlogs(req, res) {
     // get me all data from people
-    let customer = await blog.read();
-    res.status(200).json(customer);
+    let Blog = await blog.read();
+    res.status(200).json(Blog);
 }
 
 
 async function createblog(req, res) {
-    let newCustomer = req.body;
-    let customer = await blog.create(newCustomer);
-    res.status(200).json(customer);
+    let newBlog = req.body;
+    let Blog = await blog.create(newBlog);
+    res.status(200).json(Blog);
 }
 
 
-// async function updateBlog(req, res) {
-//     let id=req.params.id
-//     let updateCustomer = req.body;
-//     let customer = await blog.update(id,updateCustomer);
-//     res.status(200).json(customer);
-// }
+async function updateBlog(req, res) {
+    let id=req.params.id
+    let updateBlog = req.body;
+    let Blog = await blog.update(id,updateBlog);
+    res.status(200).json(Blog);
+}
 
 
-// async function deleteBlog(req, res) {
-//     let id=req.params.id
-//     let customer = await blog.delete(id);
-//     res.status(200).json(customer);
-// }
+async function deleteBlog(req, res) {
+    let id=req.params.id
+    await blog.delete(id);
+    res.status(200).json('Delete is Done ....!!!');
+}
 
 
 // //  async function getAllBlogs(req, res) {
