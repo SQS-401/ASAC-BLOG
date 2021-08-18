@@ -9,7 +9,7 @@ const userModel = (sequelize, DataTypes) => {
   const model = sequelize.define('lab9', {
     username: { type: DataTypes.STRING, required: true, unique: true },
     password: { type: DataTypes.STRING, required: true },
-    role: { type: DataTypes.ENUM('student', 'TA', 'instructor', 'admin'), required: true, defaultValue: 'user'},
+    role: { type: DataTypes.ENUM('student', 'TA', 'instructor', 'admin'), required: true, defaultValue: 'student'},
     token: {
       type: DataTypes.VIRTUAL,
       get() {
@@ -24,9 +24,9 @@ const userModel = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const acl = {
-          user: ['read'],
-          writer: ['read', 'create'],
-          editor: ['read', 'create', 'update'],
+          student: ['read'],
+          TA: ['read', 'create'],
+          instructor: ['read', 'create', 'update'],
           admin: ['read', 'create', 'update', 'delete']
         };
         return acl[this.role];
@@ -60,4 +60,4 @@ const userModel = (sequelize, DataTypes) => {
   return model;
 }
 
-module.exports ={ users:userModel.model};
+module.exports =userModel;
