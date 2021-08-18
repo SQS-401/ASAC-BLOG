@@ -3,7 +3,7 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 
-const DATABASE_URL = process.env.DATABASE_URL || 'postgres://localhost:5432/sultan-elayan'
+const DATABASE_URL = process.env.DATABASE_URL || 'postgres://localhost:5432/user'
 let sequelize = new Sequelize(DATABASE_URL, {});
 const blogModel = require('./blogschema');
 const blog = blogModel(sequelize, DataTypes);
