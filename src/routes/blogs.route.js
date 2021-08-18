@@ -4,25 +4,20 @@ const express = require('express');
 const router = express.Router();
 const {blog} = require('../auth/models/index');
 
-// router.param('model', (req, res, next) => {
-//     const modelName = req.params.model;
-//     if (blog[modelName]) {
-//       req.model = blog[modelName];
-//       next();
-//     } else {
-//       next('Invalid Model');
-//     }
-//   });
+
+const bearerAuth = require('../auth/middleware/bearer.middle')
+const permissions = require('../auth/middleware/acl.middle')
 
 
-router.get('/blogs', getAllBlogs);
-router.post('/blogs', createblog);
-router.put('/blogs/:id', updateBlog);
-router.delete('/blogs/:id', deleteBlog);
+
+router.get('/blogs',bearerAuth, getAllBlogs);
+router.post('/blogs',bearerAuth,permissions('create'),createblog);
+router.put('/blogs/:id',bearerAuth,permissions('update'), updateBlog);
+router.delete('/blogs/:id',bearerAuth, permissions('delete'),deleteBlog);
 
 
  async function getAllBlogs(req, res) {
-    // get me all data from people
+
     let Blog = await blog.read();
     res.status(200).json(Blog);
 }
@@ -48,39 +43,5 @@ async function deleteBlog(req, res) {
     await blog.delete(id);
     res.status(200).json('Delete is Done ....!!!');
 }
-
-
-// //  async function getAllBlogs(req, res) {
-// //     let getAllBlogs = await req.model.get();
-// //     res.status(200).json(getAllBlogs);
-// //   }
-  
-
-// //   async function getOneBlogs(req, res) {
-// //     const id = req.params.id;
-// //     let oneBlogs = await req.model.get(id)
-// //     res.status(200).json(oneBlogs);
-// //   }
-  
-
-// //   async function createBlogs(req, res) {
-// //     let obj = req.body;
-// //     let newBlog = await req.model.create(obj);
-// //     res.status(201).json(newBlog);
-// //   }
-  
-// //   async function updateBlogs(req, res) {
-// //     const id = req.params.id;
-// //     const obj = req.body;
-// //     let updatedBlog = await req.model.update(id, obj)
-// //     res.status(200).json(updatedBlog);
-// //   }
-  
-// //   async function deleteBlogs(req, res) {
-// //     let id = req.params.id;
-// //     let deleteBlog = await req.model.delete(id);
-// //     res.status(200).json(deleteBlog);
-// //   }
-  
   
   module.exports = router; 

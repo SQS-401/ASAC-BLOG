@@ -20,8 +20,7 @@ module.exports = async (req, res, next) => {
     console.log(" req.username ", req.username )
     console.log(" req.password ", req.password )
     console.log('req.body',req.body);
-    // const pw = base64.decode(req.password);
-    // console.log('ps after dec',pw);
+    
     next();
 
   } catch (e) {
